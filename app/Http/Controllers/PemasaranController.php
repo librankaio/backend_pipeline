@@ -60,28 +60,26 @@ class PemasaranController extends Controller
 
     public function storeKunjunganPemasaran(Request $request){
         // Validate the request
-         $validated = $request->validate([
-             'pipeline_form_id' => 'required|integer',
-             'user_nik'         => 'required',
-             'dt_realisasi'     => 'required',
-             'img'              => 'required|image|mimes:jpeg,png,jpg,gif|',
-         ]);
+        $validated = $request->validate([
+            'pipeline_form_id' => 'required|integer',
+            'rencana_id'       => 'required|integer',
+            'img'              => 'required|image|mimes:jpeg,png,jpg,gif|',
+            'dt_realisasi'     => 'required',
+        ]);
 
          // Find the Pemasaran by ID
-         $pemasaran = Pemasaran::findOrFail($validated['id']);
+        $pemasaran = Pemasaran::findOrFail($validated['pipeline_form_id']);
 
-         $dt_realisasi = Carbon::parse($request->dt_realisasi)->format('Y-m-d H:i:s');
+        $dt_realisasi = Carbon::parse($request->dt_realisasi)->format('Y-m-d H:i:s');
 
          // Update the stat flag
-         PemasaranActivity::create([
-             'pipeline_form_id' => $request->pipeline_form_id,
-             'user_nik' => $request->user_nik,
-             'dt_realisasi' => $dt_realisasi,
-             'img' => request()->file('img')->getClientOriginalName(),
-             'stat_kunjungan' => 'Y'
+        PemasaranActivity::where('id', '=', $request->rencana_id)->update([
+            'dt_realisasi' => $dt_realisasi,
+            'img' => request()->file('img')->getClientOriginalName(),
+            'stat_kunjungan' => 'Y'
         ]);
- 
-        $pemasaran = PemasaranActivity::where('pipeline_form_id','=',$request->pipeline_form_id);
+
+        $pemasaran = PemasaranActivity::where('id','=',$request->rencana_id)->get();
         
         $originalname_img_upload = request('img')->getClientOriginalName();
         $path_upload = "img_kunjungan/$request->pipeline_form_id/";
@@ -92,7 +90,7 @@ class PemasaranController extends Controller
             'data' => $pemasaran,
             'code' => 200
         ]);
-     }
+    }
 
 
     public function getStatistik($nik){

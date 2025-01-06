@@ -36,7 +36,6 @@ Route::post('/storerencanapemasaran', [PemasaranController::class, 'storeRencana
 Route::get('/getrencanapemasaran/{nik}', [PemasaranController::class, 'getRencanaPemasaran'])->name('getrencanapemasaran')->middleware('jwt.verify');
 
 Route::post('/storekunjunganpemasaran', [PemasaranController::class, 'storeKunjunganPemasaran'])->name('storekunjunganpemasaran')->middleware('jwt.verify');
-// Route::post('/getstatistik/{nik}', [PemasaranController::class, 'getStatistik'])->name('getstatistik')->middleware('jwt.verify');
 
 Route::group(['prefix' => 'user','middleware' => ['assign.guard:user','jwt.auth']],function ()
 {
