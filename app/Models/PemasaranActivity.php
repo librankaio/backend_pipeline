@@ -17,6 +17,7 @@ class PemasaranActivity extends Model
 
     protected $fillable = [
         'pipeline_form_id',
+        'user_nik',
         'img',
         'dt_kunjungan',
         'dt_realisasi',
