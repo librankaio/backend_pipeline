@@ -17,7 +17,7 @@ class PemasaranController extends Controller
     }
 
     public function storeRencanaPemasaran(Request $request){
-        dd($request->all());
+        // dd($request->all());
         // Validate the request
         $validator = Validator::make($request->all(), [
             'pipeline_form_id' => 'required|integer',
