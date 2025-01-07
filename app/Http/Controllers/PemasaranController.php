@@ -12,7 +12,7 @@ class PemasaranController extends Controller
 {
     public function getPemasaran($nik){
         // dd($nik);
-        $data = Pemasaran::where('user_nik','=',$nik)->where('status','=','WARM')->get();
+        $data = Pemasaran::where('nik','=',$nik)->where('status','=','WARM')->get();
         return response()->json($data, 200);
     }
 
@@ -20,10 +20,10 @@ class PemasaranController extends Controller
         // Validate the request
         $validator = Validator::make($request->all(), [
             'pipeline_form_id'  => 'required|integer',
-            'user_nik'         => 'required',
+            'nik'         => 'required',
             'nama_client'      => 'required',
             'dt_kunjungan'     => 'required',
-            'lokasi'           => 'required',
+            'lokasi_kunjungan'           => 'required',
         ]);
         //  $pemasaran = Pemasaran::findOrFail($validator['id']);
         //  dd($pemasaran);
@@ -38,25 +38,25 @@ class PemasaranController extends Controller
         if($request->phone_client != null){
             PemasaranActivity::create([
                 'pipeline_form_id' => $request->pipeline_form_id,
-                'user_nik' => $request->user_nik,
+                'nik' => $request->nik,
                 'nama_client' => $request->nama_client,
                 'phone_client' => $request->phone_client,
                 'dt_kunjungan' => $dt_kunjungan,
-                'lokasi' => $request->lokasi,
-                'stat_rencana' => 'Y'
+                'lokasi_kunjungan' => $request->lokasi_kunjungan,
+                'stat_perencanaan' => 'Y'
             ]);
         }else{
             PemasaranActivity::create([
                 'pipeline_form_id' => $request->pipeline_form_id,
-                'user_nik' => $request->user_nik,
+                'nik' => $request->nik,
                 'nama_client' => $request->nama_client,
                 'dt_kunjungan' => $dt_kunjungan,
-                'lokasi' => $request->lokasi,
-                'stat_rencana' => 'Y'
+                'lokasi_kunjungan' => $request->lokasi_kunjungan,
+                'stat_perencanaan' => 'Y'
             ]);
         }
  
-        $pemasaran = PemasaranActivity::where('pipeline_form_id','=',$request->pipeline_form_id)->where('stat_rencana','=','Y')->first();
+        $pemasaran = PemasaranActivity::where('pipeline_form_id','=',$request->pipeline_form_id)->where('stat_perencanaan','=','Y')->first();
         
         return response()->json([
             'message' => 'Berhasil membuat Rencana Kunjungan',
@@ -66,7 +66,7 @@ class PemasaranController extends Controller
     }
 
     public function getRencanaPemasaran($nik){
-        $data = PemasaranActivity::where('user_nik','=',$nik)->where('stat_rencana','=','Y')->get();
+        $data = PemasaranActivity::where('nik','=',$nik)->where('stat_perencanaan','=','Y')->get();
         return response()->json($data, 200);
     }
 
@@ -74,20 +74,20 @@ class PemasaranController extends Controller
     public function storeKunjunganPemasaran(Request $request){
         // Validate the request
         $validated = $request->validate([
-            'pipeline_form_id' => 'required|integer',
-            'rencana_id'       => 'required|integer',
-            'img'              => 'required|image|mimes:jpeg,png,jpg,gif|',
-            'dt_realisasi'     => 'required',
+            'pipeline_form_id'           => 'required|integer',
+            'rencana_id'                 => 'required|integer',
+            'img'                        => 'required|image|mimes:jpeg,png,jpg,gif|',
+            'dt_realisasi_kunjungan'     => 'required',
         ]);
 
          // Find the Pemasaran by ID
         $pemasaran = Pemasaran::findOrFail($validated['pipeline_form_id']);
 
-        $dt_realisasi = Carbon::parse($request->dt_realisasi)->format('Y-m-d H:i:s');
+        $dt_realisasi_kunjungan = Carbon::parse($request->dt_realisasi_kunjungan)->format('Y-m-d H:i:s');
 
          // Update the stat flag
         PemasaranActivity::where('id', '=', $request->rencana_id)->update([
-            'dt_realisasi' => $dt_realisasi,
+            'dt_realisasi_kunjungan' => $dt_realisasi_kunjungan,
             'img' => request()->file('img')->getClientOriginalName(),
             'stat_kunjungan' => 'Y'
         ]);
@@ -130,7 +130,7 @@ class PemasaranController extends Controller
     }
 
     public function getRiwayatPemasaran($nik){
-        $data = PemasaranActivity::where('user_nik','=',$nik)->where('stat_rencana','=','Y')->where('stat_kunjungan','=','Y')->get();
+        $data = PemasaranActivity::where('nik','=',$nik)->where('stat_perencanaan','=','Y')->where('stat_kunjungan','=','Y')->get();
         return response()->json($data, 200);
     }
 }

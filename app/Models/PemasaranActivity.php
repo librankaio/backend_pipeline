@@ -17,14 +17,14 @@ class PemasaranActivity extends Model
 
     protected $fillable = [
         'pipeline_form_id',
-        'user_nik',
+        'nik',
         'nama_client',
         'phone_client',
         'img',
         'dt_kunjungan',
-        'dt_realisasi',
-        'lokasi',
-        'stat_rencana',
+        'dt_realisasi_kunjungan',
+        'lokasi_kunjungan',
+        'stat_perencanaan',
         'stat_kunjungan'
     ];
 }
