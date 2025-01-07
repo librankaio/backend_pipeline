@@ -12,7 +12,8 @@ class PemasaranController extends Controller
 {
     public function getPemasaran($nik){
         // dd($nik);
-        $data = Pemasaran::where('nik','=',$nik)->where('status','=','WARM')->get();
+        $data = Pemasaran::select('cabang_pkss','jbtn_pemasar','nama_pemasar','user_nik as nik','dt_period_pipeline','nama_client','tk_pria_client','tk_wanita_client','kab_kota_client','alamat_client','job_client','bid_usaha_client','kepemilikan_client','riwayat_usaha_client','kantor_pusat_client','uker_client','info_negatif_client','riwayat_kerjasama_client','pengambilan_keputusan_client','name_pic_client','phone_client','jabatan_pic_client','fokus_bisnis_client','potensi_bisnis_client','vendor_exist_client','akhir_kerjasama_client','farming_client','jalur_kerjasama_client','media_penawaran_client','dt_perkiraan_kerjasama','legalitas_perusahaan','f_aanwijzing','f_penawaran_tender','penawaran_tender','prakiraan_nilai','komite','top','note_1','note_2','note_3','note_4','note_5','note_check','img1','img2','img3','img4','img5','approval','checked','submitted','approval_pembina','status','reason','reason_kanpus','reason_pembina','dispo_kanpus','dispo_cabang','nik_pembina')->where('user_nik','=',$nik)->where('status','=','WARM')->get();
+        
         return response()->json($data, 200);
     }
 
@@ -110,18 +111,13 @@ class PemasaranController extends Controller
         // dd(request()->all());
         $results = [];
 
-        $count_of_pembinaan = Pemasaran::where('nik','=',$nik)->where('stat_kunjungan','=','Y')->where('stat_perencanaan','=','Y')->where('jenis_kunjungan','=','Pembinaan')->whereBetween('dt_realisasi_kunjungan', [request('dtfrom'), request('dtto')])->count();
-        $count_of_penagihan = Pemasaran::where('nik','=',$nik)->where('stat_kunjungan','=','Y')->where('stat_perencanaan','=','Y')->where('jenis_kunjungan','=','Penagihan')->whereBetween('dt_realisasi_kunjungan', [request('dtfrom'), request('dtto')])->count();
+        $count_of_pemasaran = PemasaranActivity::where('nik','=',$nik)->where('stat_perencanaan','=','Y')->where('stat_kunjungan','=','Y')->whereBetween('dt_realisasi_kunjungan', [request('dtfrom'), request('dtto')])->count();
 
-        $pembinaan_counts['pembinaan'] = $count_of_pembinaan;
-        $penagihan_counts['penagihan'] = $count_of_penagihan;
+        $pemasaran_counts['pemasaran'] = $count_of_pemasaran;
 
         array_push($results, [
-            'pembinaan' => $count_of_pembinaan, 
-            'penagihan' => $count_of_penagihan
+            'pemasaran' => $count_of_pemasaran
         ]);
-
-        // dd($results);
 
         return response()->json([
             'data'=> $results,
