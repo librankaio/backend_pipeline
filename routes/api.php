@@ -39,7 +39,7 @@ Route::post('/storekunjunganpemasaran', [PemasaranController::class, 'storeKunju
 
 Route::get('/getriwayatpemasaran/{nik}', [PemasaranController::class, 'getRiwayatPemasaran'])->name('getriwayatpemasaran')->middleware('jwt.verify');
 
-Route::post('/getstatistik/{nik}', [PemasaranController::class, 'getStatistik'])->name('getstatistik')->middleware('jwt.verify');
+Route::get('/getstatistik/{nik}', [PemasaranController::class, 'getStatistik'])->name('getstatistik')->middleware('jwt.verify');
 
 Route::group(['prefix' => 'user','middleware' => ['assign.guard:user','jwt.auth']],function ()
 {

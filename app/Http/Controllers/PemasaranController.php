@@ -67,7 +67,7 @@ class PemasaranController extends Controller
     }
 
     public function getRencanaPemasaran($nik){
-        $data = PemasaranActivity::where('nik','=',$nik)->where('stat_perencanaan','=','Y')->get();
+        $data = PemasaranActivity::where('nik','=',$nik)->where('stat_perencanaan','=','Y')->where('stat_kunjungan','=', NULL)->get();
         return response()->json($data, 200);
     }
 
