@@ -23,7 +23,7 @@ class PemasaranController extends Controller
             'pipeline_form_id'  => 'required|integer',
             'nik'         => 'required',
             'nama_client'      => 'required',
-            'dt_kunjungan'     => 'required',
+            'dt_realisasi_kunjungan'     => 'required',
             'lokasi_kunjungan'           => 'required',
         ]);
         //  $pemasaran = Pemasaran::findOrFail($validator['id']);
@@ -33,7 +33,7 @@ class PemasaranController extends Controller
             return response()->json($validator->errors(), 422);
         }
         
-        $dt_kunjungan = Carbon::parse($request->dt_kunjungan)->format('Y-m-d H:i:s');
+        $dt_realisasi_kunjungan = Carbon::parse($request->dt_realisasi_kunjungan)->format('Y-m-d H:i:s');
 
          // Update the stat flag
         if($request->phone_client != null){
@@ -42,7 +42,7 @@ class PemasaranController extends Controller
                 'nik' => $request->nik,
                 'nama_client' => $request->nama_client,
                 'phone_client' => $request->phone_client,
-                'dt_kunjungan' => $dt_kunjungan,
+                'dt_kunjungan' => $dt_realisasi_kunjungan,
                 'lokasi_kunjungan' => $request->lokasi_kunjungan,
                 'stat_perencanaan' => 'Y'
             ]);
@@ -51,7 +51,7 @@ class PemasaranController extends Controller
                 'pipeline_form_id' => $request->pipeline_form_id,
                 'nik' => $request->nik,
                 'nama_client' => $request->nama_client,
-                'dt_kunjungan' => $dt_kunjungan,
+                'dt_kunjungan' => $dt_realisasi_kunjungan,
                 'lokasi_kunjungan' => $request->lokasi_kunjungan,
                 'stat_perencanaan' => 'Y'
             ]);
