@@ -86,7 +86,7 @@ class PemasaranController extends Controller
 
         $dt_realisasi_kunjungan = Carbon::parse($request->dt_realisasi_kunjungan)->format('Y-m-d H:i:s');
 
-         // Update the stat flag
+        // Update the stat flag
         PemasaranActivity::where('id', '=', $request->rencana_id)->update([
             'dt_realisasi_kunjungan' => $dt_realisasi_kunjungan,
             'img' => request()->file('img')->getClientOriginalName(),
