@@ -25,6 +25,9 @@ class PemasaranActivity extends Model
         'dt_realisasi_kunjungan',
         'lokasi_kunjungan',
         'stat_perencanaan',
-        'stat_kunjungan'
+        'stat_kunjungan',
+        'geo_loc',
+        'alamat',
+        'todo'
     ];
 }

@@ -79,6 +79,8 @@ class PemasaranController extends Controller
             'rencana_id'                 => 'required|integer',
             'img'                        => 'required|image|mimes:jpeg,png,jpg,gif|',
             'dt_realisasi_kunjungan'     => 'required',
+            'geo_loc'                    => 'required',
+            'alamat'                    => 'required',
         ]);
 
          // Find the Pemasaran by ID
@@ -86,12 +88,28 @@ class PemasaranController extends Controller
 
         $dt_realisasi_kunjungan = Carbon::parse($request->dt_realisasi_kunjungan)->format('Y-m-d H:i:s');
 
-        // Update the stat flag
-        PemasaranActivity::where('id', '=', $request->rencana_id)->update([
-            'dt_realisasi_kunjungan' => $dt_realisasi_kunjungan,
-            'img' => request()->file('img')->getClientOriginalName(),
-            'stat_kunjungan' => 'Y'
-        ]);
+        if($request->todo != NULL){
+            // Update the stat flag
+            PemasaranActivity::where('id', '=', $request->rencana_id)->update([
+                'dt_realisasi_kunjungan' => $dt_realisasi_kunjungan,
+                'img' => request()->file('img')->getClientOriginalName(),
+                'stat_kunjungan' => 'Y',
+                'stat_kunjungan' => 'Y',
+                'geo_loc' => $request->geo_loc,
+                'alamat' => $request->alamat,
+                'todo' => $request->todo
+            ]);
+        }else{
+            // Update the stat flag
+            PemasaranActivity::where('id', '=', $request->rencana_id)->update([
+                'dt_realisasi_kunjungan' => $dt_realisasi_kunjungan,
+                'img' => request()->file('img')->getClientOriginalName(),
+                'stat_kunjungan' => 'Y',
+                'stat_kunjungan' => 'Y',
+                'geo_loc' => $request->geo_loc,
+                'alamat' => $request->alamat
+            ]);
+        }
 
         $pemasaran = PemasaranActivity::where('id','=',$request->rencana_id)->get();
         
