@@ -41,6 +41,8 @@ Route::get('/getriwayatpemasaran/{nik}', [PemasaranController::class, 'getRiwaya
 
 Route::post('/getstatistik/{nik}', [PemasaranController::class, 'getStatistik'])->name('getstatistik')->middleware('jwt.verify');
 
+Route::delete('/deletedata/{id}', [PemasaranController::class, 'delete'])->name('deletedata')->middleware('jwt.verify');
+
 Route::group(['prefix' => 'user','middleware' => ['assign.guard:user','jwt.auth']],function ()
 {
 	// Route::get('/demo','AdminController@demo');

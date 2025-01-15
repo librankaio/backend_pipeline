@@ -147,4 +147,12 @@ class PemasaranController extends Controller
         $data = PemasaranActivity::where('nik','=',$nik)->where('stat_perencanaan','=','Y')->where('stat_kunjungan','=','Y')->get();
         return response()->json($data, 200);
     }
+
+    public function delete($id){
+        PemasaranActivity::find($id)->delete();
+        return response()->json([
+            'message' => 'Berhasil Menghapus Data',
+            'code' => 200
+        ]);
+    }
 }
